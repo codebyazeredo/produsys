@@ -1,4 +1,4 @@
-<div class="bg-white shadow-md rounded-lg p-4 mt-6">
+<div class="bg-white shadow-md rounded-lg p-4">
     <h3 class="text-gray-700 text-lg font-semibold mb-4">Produtos com Estoque Baixo</h3>
     <div class="overflow-x-auto">
         @if($lowStockProducts->isEmpty())

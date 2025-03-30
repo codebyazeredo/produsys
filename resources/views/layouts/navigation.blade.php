@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center">
                 <a href="{{ route('dashboard') }}" class="text-white text-xl font-semibold">
-                    Produsys
+                    Produsys WMS
                 </a>
             </div>
 

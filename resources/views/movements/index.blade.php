@@ -38,7 +38,9 @@
                         <tr class="border border-gray-300 text-gray-800 hover:bg-gray-800 hover:text-white">
                             <td class="border border-gray-300 px-4 py-2">{{ $movement->product->name }}</td>
                             <td class="border border-gray-300 px-4 py-2">
-                                {{ $movement->movement_type === 'add' ? 'Adição' : 'Remoção' }}
+                                <span class="{{ $movement->movement_type === 'add' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' }}">
+                                    {{ $movement->movement_type === 'add' ? 'Entrada' : 'Saída' }}
+                                </span>
                             </td>
                             <td class="border border-gray-300 px-4 py-2">{{ $movement->quantity }}</td>
                             <td class="border border-gray-300 px-4 py-2">{{ \Carbon\Carbon::parse($movement->movement_date)->format('d/m/Y H:i:s') }}</td>

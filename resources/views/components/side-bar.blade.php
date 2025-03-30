@@ -28,6 +28,9 @@
                 <li>
                     <a href="{{ route('suppliers.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Fornecedores</a>
                 </li>
+                <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Unidades de medida</a>
+                </li>
             </ul>
         </li>
 
@@ -37,6 +40,9 @@
                 <i class="bi" :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
             </button>
             <ul x-show="open" class="pl-6 space-y-1">
+                <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Armazenamento</a>
+                </li>
                 <li>
                     <a href="{{ route('stock.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Estoque</a>
                 </li>

@@ -6,19 +6,18 @@
     </div>
 
     <div class="grid gap-6 mt-6">
+        @include('components.acoes-rapidas')
+    </div>
+
+    <div class="grid gap-6 mt-6">
         @include('components.movimentacoes')
     </div>
 
-    <div class="grid gap-6">
-        @include('components.avisos')
+    <div class="grid gap-6 mt-6">
+        @include('components.graficos')
     </div>
 
-    <div class="grid gap-6 lg:grid-cols-2 sm:grid-cols-1 mt-6">
-        <div>
-            @include('components.graficos')
-        </div>
-        <div>
-            @include('components.acoes-rapidas')
-        </div>
+    <div class="grid gap-6 mt-6">
+        @include('components.avisos')
     </div>
 @endsection

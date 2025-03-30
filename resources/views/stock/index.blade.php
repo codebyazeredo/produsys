@@ -68,12 +68,12 @@
 
                             <td class="border border-gray-300 px-4 py-2">
                                 <div class="flex justify-center gap-2">
-                                    <button onclick="openAddModal({{ $product->id }})" class="text-green-500 hover:text-green-700">
-                                        <i class="bi bi-plus text-xl"></i> Adicionar
+                                    <button onclick="openAddModal({{ $product->id }})" class="bg-green-500 text-white hover:bg-green-600 hover:scale-105 transition-all duration-150 py-0.5 px-2 rounded-sm shadow focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
+                                        <i class="bi bi-plus text-sm"></i> Adicionar
                                     </button>
 
-                                    <button onclick="openRemoveModal({{ $product->id }})" class="text-red-500 hover:text-red-700">
-                                        <i class="bi bi-dash text-xl"></i> Remover
+                                    <button onclick="openRemoveModal({{ $product->id }})" class="bg-red-500 text-white hover:bg-red-600 hover:scale-105 transition-all duration-150 py-0.5 px-2 rounded-sm shadow focus:outline-none focus:ring-2 focus:ring-red-500 text-xs">
+                                        <i class="bi bi-dash text-sm"></i> Remover
                                     </button>
                                 </div>
                             </td>
