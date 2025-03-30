@@ -53,17 +53,19 @@
                             <td class="border border-gray-300 px-4 py-2">{{ $product->category->name }}</td>
                             <td class="border border-gray-300 px-4 py-2">{{ $product->balance->quantity }}</td>
                             <td class="border border-gray-300 px-4 py-2">
-                                @if($product->latestStockMovement->isNotEmpty())
+                                @if($product->latestStockMovement)
                                     @php
-                                        $movement = $product->latestStockMovement->first();
+                                        $movement = $product->latestStockMovement;
                                         $formattedDate = \Carbon\Carbon::parse($movement->movement_date)->format('d/m/Y H:i:s');
-                                        $movementType = $movement->movement_type === 'add' ? 'Adição' : 'Remoção';
+                                        $movementType = $movement->movement_type === 'add' ? 'Adicionado' : 'Removido';
+                                        $userName = $movement->user ? $movement->user->name : 'Usuário desconhecido';
                                     @endphp
-                                    {{ $movementType }} - Quantidade: {{ $movement->quantity }} - Data: {{ $formattedDate }}
+                                    {{ $movementType }} - {{ $movement->quantity }} - Data: {{ $formattedDate }} - Usuário: {{ $userName }}
                                 @else
                                     Ainda não possui movimentos
                                 @endif
                             </td>
+
                             <td class="border border-gray-300 px-4 py-2">
                                 <div class="flex justify-center gap-2">
                                     <button onclick="openAddModal({{ $product->id }})" class="text-green-500 hover:text-green-700">

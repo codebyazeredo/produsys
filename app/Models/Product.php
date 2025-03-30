@@ -43,8 +43,8 @@ class Product extends Model
 
     public function latestStockMovement()
     {
-        return $this->hasMany(StockMovement::class)
-            ->orderBy('movement_date', 'desc')
-            ->limit(1);
+        return $this->hasOne(StockMovement::class)
+            ->orderBy('movement_date', 'desc');
     }
+
 }

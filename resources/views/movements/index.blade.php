@@ -30,6 +30,7 @@
                         <th class="border border-gray-300 px-4 py-2 text-left">Tipo</th>
                         <th class="border border-gray-300 px-4 py-2 text-left">Quantidade</th>
                         <th class="border border-gray-300 px-4 py-2 text-left">Data</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">Usuario</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,7 +41,8 @@
                                 {{ $movement->movement_type === 'add' ? 'Adição' : 'Remoção' }}
                             </td>
                             <td class="border border-gray-300 px-4 py-2">{{ $movement->quantity }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $movement->movement_date }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ \Carbon\Carbon::parse($movement->movement_date)->format('d/m/Y H:i:s') }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ $movement->user ? $movement->user->name : 'Usuário desconhecido' }}</td>
                         </tr>
                     @endforeach
                     </tbody>

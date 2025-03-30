@@ -5,7 +5,7 @@
         @include('components.stats')
     </div>
 
-    <div class="grid gap-6">
+    <div class="grid gap-6 mt-6">
         @include('components.movimentacoes')
     </div>
 

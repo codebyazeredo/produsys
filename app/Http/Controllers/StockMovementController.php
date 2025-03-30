@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\StockMovement;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StockMovementController extends Controller
@@ -18,7 +19,7 @@ class StockMovementController extends Controller
         $categoryId = $request->input('category_id');
         $supplierId = $request->input('supplier_id');
 
-        $stockMovements = StockMovement::with('product');
+        $stockMovements = StockMovement::with(['product', 'user']);
 
         if ($name) {
             $stockMovements = $stockMovements->whereHas('product', function ($query) use ($name) {
@@ -84,6 +85,7 @@ class StockMovementController extends Controller
                     'quantity' => $quantity,
                     'movement_type' => $movementType,
                     'movement_date' => now(),
+                    'user_id' => Auth::id(),
                 ]);
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Erro ao registrar movimentação.');
@@ -103,7 +105,8 @@ class StockMovementController extends Controller
     public function history(Request $request)
     {
         $productId = $request->input('product_id');
-        $stockMovements = StockMovement::with('product')->orderBy('movement_date', 'desc');
+        $stockMovements = StockMovement::with(['product', 'user'])
+        ->orderBy('movement_date', 'desc');
 
         if ($productId) {
             $stockMovements->where('product_id', $productId);
