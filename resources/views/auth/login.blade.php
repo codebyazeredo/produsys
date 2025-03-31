@@ -6,7 +6,10 @@
             <div class="leading-loose">
                 <form class="max-w-xl m-4 p-10 bg-white rounded shadow-xl" method="POST" action="{{ route('login') }}">
                     @csrf
-                    <p class="text-gray-800 font-medium text-center text-lg font-bold">Login</p>
+                    <div class="text-center">
+                        <p class="text-5xl font-extrabold text-blue-600">Produsys WMS</p>
+                        <p class="text-lg text-gray-700 font-medium mt-2">Bem-vindo(a)</p>
+                    </div>
 
                     <div class="">
                         <label class="block text-sm text-gray-600" for="email">Email</label>

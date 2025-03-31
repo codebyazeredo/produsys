@@ -1,8 +1,19 @@
 <aside class="bg-gray-600 text-white w-64 min-h-screen relative">
     <!-- Cabeçalho da Sidebar -->
     <div class="p-5">
-        <h2 class="text-2xl font-semibold">Bem-vindo(a),</h2>
-        <span>{{ Auth::user()->name }}</span>
+        <h2 class="text-2xl font-semibold">
+            <?php
+                $hour = date('H');
+                if ($hour >= 5 && $hour < 12) {
+                    echo "Olá, Bom dia";
+                } elseif ($hour >= 12 && $hour < 18) {
+                    echo "Olá, Boa tarde";
+                } else {
+                    echo "Olá, Boa noite";
+                }
+            ?>
+        </h2>
+        <span class="text-lg font-medium">{{ Auth::user()->name }}</span>
     </div>
 
     <!-- Navegação da Sidebar -->
@@ -41,7 +52,7 @@
             </button>
             <ul x-show="open" class="pl-6 space-y-1">
                 <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Armazenamento</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Armazens</a>
                 </li>
                 <li>
                     <a href="{{ route('stock.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Estoque</a>
