@@ -11,11 +11,17 @@ class Balance extends Model
 
     protected $fillable = [
         'product_id',
-        'quantity'
+        'position_id',
+        'quantity',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
 }

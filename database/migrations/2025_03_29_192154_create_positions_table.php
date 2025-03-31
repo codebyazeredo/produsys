@@ -8,18 +8,18 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('positions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('warehouse_id');
             $table->string('name');
-            $table->string('cnpj')->unique();
-            $table->string('address');
-            $table->string('phone');
             $table->timestamps();
+
+            $table->foreign('warehouse_id')->references('id')->on('warehouses');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('positions');
     }
 };

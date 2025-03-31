@@ -13,6 +13,7 @@ class Product extends Model
         'name',
         'category_id',
         'supplier_id',
+        'unit_measure_id',
         'price',
     ];
 
@@ -26,14 +27,14 @@ class Product extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function saleItems()
+    public function unitMeasure()
     {
-        return $this->hasMany(SaleItem::class);
+        return $this->belongsTo(UnitMeasure::class);
     }
 
     public function balance()
     {
-        return $this->hasOne(Balance::class);
+        return $this->hasMany(Balance::class);
     }
 
     public function stockMovements()

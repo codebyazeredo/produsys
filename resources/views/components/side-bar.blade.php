@@ -52,7 +52,7 @@
             </button>
             <ul x-show="open" class="pl-6 space-y-1">
                 <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Armazens</a>
+                    <a href="{{ route('warehouses.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Armazens</a>
                 </li>
                 <li>
                     <a href="{{ route('stock.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Estoque</a>

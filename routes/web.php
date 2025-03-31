@@ -7,6 +7,7 @@ use App\Http\Controllers\StockMovementController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WarehouseController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -22,8 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('suppliers',  SupplierController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('warehouses', WarehouseController::class);
     Route::resource('stock', StockMovementController::class)->except('show');
     Route::get('/stock/history', [StockMovementController::class, 'history'])->name('stock.history');
+
 
     Route::get('/categories/list', [CategoryController::class, 'list'])->name('categories.list');
 });

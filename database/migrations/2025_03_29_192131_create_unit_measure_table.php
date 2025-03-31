@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('unit_measure', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('cnpj')->unique();
-            $table->string('address');
-            $table->string('phone');
+            $table->string('name')->unique();
+            $table->string('abbreviation')->unique();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('unit_measure');
     }
 };

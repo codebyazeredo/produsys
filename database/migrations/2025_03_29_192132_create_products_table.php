@@ -13,11 +13,13 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('unit_measure_id');
             $table->decimal('price');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->foreign('unit_measure_id')->references('id')->on('unit_measure');
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Models\Balance;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -27,15 +28,17 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create($validated);
-        $product->balance()->create(['quantity' => 0]);
+        Balance::create([
+            'product_id' => $product->id,
+            'quantity' => 0,
+        ]);
 
         return redirect()->route('products.index')->with('success', 'Produto criado com sucesso!');
     }
 
-
     public function show(Product $product)
     {
-        return response()->json($product->load(['category', 'supplier']));
+        return response()->json($product->load(['category', 'supplier', 'balances']));
     }
 
     public function update(Request $request, Product $product)
@@ -51,9 +54,9 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Produto atualizado com sucesso!');
     }
 
-
     public function destroy(Product $product)
     {
+        $product->balances()->delete();
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Produto excluído com sucesso!');
     }

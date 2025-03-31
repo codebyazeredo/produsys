@@ -9,7 +9,8 @@ return new class extends Migration {
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('position_id')->nullable()->constrained();
             $table->integer('quantity')->default(0);
             $table->timestamps();
         });
