@@ -2,8 +2,14 @@
 
 @section('content')
     <div class="container mx-auto p-6">
-        <div class="bg-white text-white shadow-lg rounded-lg p-6">
+        <div class="bg-white shadow-lg rounded-lg p-6">
             <h1 class="text-2xl font-bold mb-4 text-gray-700">Gerenciar Estoque</h1>
+
+            <div class="mb-4 flex justify-end">
+                <a href="{{ route('stock.pending') }}" class="bg-orange-500 text-white hover:bg-orange-600 px-4 py-2 rounded">
+                    Produtos sem Estoque
+                </a>
+            </div>
 
             <form action="{{ route('stock.index') }}" method="GET" class="mb-4">
                 <div class="flex gap-4">
@@ -43,15 +49,16 @@
                         <th class="border border-gray-300 px-4 py-2 text-left">Categoria</th>
                         <th class="border border-gray-300 px-4 py-2 text-left">Quantidade em Estoque</th>
                         <th class="border border-gray-300 px-4 py-2 text-left">Última Movimentação</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left">Ações</th>
+{{--                        <th class="border border-gray-300 px-4 py-2 text-left">Ações</th>--}}
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($products as $product)
+                        @if(optional($product->balance)->position_id) <!-- Apenas exibe se tiver posição -->
                         <tr class="border border-gray-300 text-gray-800 hover:bg-gray-800 hover:text-white">
                             <td class="border border-gray-300 px-4 py-2">{{ $product->name }}</td>
                             <td class="border border-gray-300 px-4 py-2">{{ $product->category->name }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $product->balance->quantity }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ optional($product->balance)->quantity ?? 0 }}</td>
                             <td class="border border-gray-300 px-4 py-2">
                                 @if($product->latestStockMovement)
                                     @php
@@ -65,28 +72,24 @@
                                     Ainda não possui movimentos
                                 @endif
                             </td>
-
-                            <td class="border border-gray-300 px-4 py-2">
-                                <div class="flex justify-center gap-2">
-                                    <button onclick="openAddModal({{ $product->id }})" class="bg-green-500 text-white hover:bg-green-600 hover:scale-105 transition-all duration-150 py-0.5 px-2 rounded-sm shadow focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
-                                        <i class="bi bi-plus text-sm"></i> Adicionar
-                                    </button>
-
-                                    <button onclick="openRemoveModal({{ $product->id }})" class="bg-red-500 text-white hover:bg-red-600 hover:scale-105 transition-all duration-150 py-0.5 px-2 rounded-sm shadow focus:outline-none focus:ring-2 focus:ring-red-500 text-xs">
-                                        <i class="bi bi-dash text-sm"></i> Remover
-                                    </button>
-                                </div>
-                            </td>
+{{--                            <td class="border border-gray-300 px-4 py-2">--}}
+{{--                                <div class="flex justify-center gap-2">--}}
+{{--                                    <a href="{{ route('stock.create', ['product_id' => $product->id]) }}" class="bg-green-500 text-white hover:bg-green-600 px-4 py-2 rounded">--}}
+{{--                                        Adicionar Estoque--}}
+{{--                                    </a>--}}
+{{--                                    @if($product->latestStockMovement)--}}
+{{--                                        <a href="{{ route('stock.edit', $product->latestStockMovement->id) }}" class="bg-yellow-500 text-white hover:bg-yellow-600 px-4 py-2 rounded">--}}
+{{--                                            Editar Última Movimentação--}}
+{{--                                        </a>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            </td>--}}
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-    @include('stock.add-modal')
-    @include('stock.remove-modal')
-
-    <script src="{{ asset('js/stock/index.js') }}"></script>
 @endsection

@@ -17,6 +17,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -29,7 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('warehouses', WarehouseController::class);
     Route::resource('stock', StockMovementController::class)->except('show');
 
-    Route::get('/stock/history', [StockMovementController::class, 'history'])->name('stock.history');
+    Route::get('stock/history', [StockMovementController::class, 'history'])->name('stock.history');
+    Route::get('stock/pending', [StockMovementController::class, 'pending'])->name('stock.pending');
+    Route::get('stock/register/{productId}', [StockMovementController::class, 'registerStock'])->name('stock.registerStock');
+    Route::post('stock/store', [StockMovementController::class, 'storeRegisteredStock'])->name('stock.storeRegisteredStock');
+    Route::get('/positions-by-warehouse/{warehouseId}', [StockMovementController::class, 'getPositionsByWarehouse']);
+    Route::post('stock/add', [StockMovementController::class, 'addStock'])->name('stock.add');
 });
 
 require __DIR__.'/auth.php';

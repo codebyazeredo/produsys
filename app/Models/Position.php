@@ -11,6 +11,7 @@ class Position extends Model
 
     protected $fillable = [
         'warehouse_id',
+        'produto_id',
         'name',
     ];
 
@@ -43,4 +44,10 @@ class Position extends Model
     {
         $this->attributes['name'] = $name;
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
 }

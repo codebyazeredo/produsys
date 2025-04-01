@@ -94,7 +94,7 @@ class Product extends Model
 
     public function balance()
     {
-        return $this->hasMany(Balance::class);
+        return $this->hasOne(Balance::class);
     }
 
     public function stockMovements()
@@ -105,5 +105,10 @@ class Product extends Model
     public function latestStockMovement()
     {
         return $this->hasOne(StockMovement::class)->latest('movement_date');
+    }
+
+    public function position()
+    {
+        return $this->hasOne(Position::class);
     }
 }

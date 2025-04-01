@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class StockMovement extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+    protected $dates = ['movement_date'];
+
 
     protected $fillable = [
         'product_id',
