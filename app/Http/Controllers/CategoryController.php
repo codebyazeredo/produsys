@@ -2,58 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Http\Dtos\CategoryDTO;
+use App\Http\Requests\CategoryRequest;
+use App\Services\CategoryService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function index()
+    protected CategoryService $categoryService;
+
+    public function __construct(CategoryService $categoryService)
     {
-        $categories = Category::all();
+        $this->categoryService = $categoryService;
+    }
+
+    public function index(): View
+    {
+        $categories = $this->categoryService->getAllCategories();
         return view('categories.index', compact('categories'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('categories.create');
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name',
-        ]);
+        $categoryDTO = CategoryDTO::fromArray($request->validated());
+        $this->categoryService->createCategory($categoryDTO);
 
-        Category::create($validated);
-
-        return redirect()->route('categories.index')->with('success', 'Categoria criada com sucesso.');
+        return redirect()->route('categories.index')->with('success', 'Categoria criada com sucesso!');
     }
 
-    public function show(Category $category)
+    public function edit(int $id): View|RedirectResponse
     {
-        return view('categories.show', compact('category'));
-    }
+        $category = $this->categoryService->getCategoryById($id);
+        if (!$category) {
+            return redirect()->route('categories.index')->with('error', 'Categoria não encontrada.');
+        }
 
-    public function edit(Category $category)
-    {
         return view('categories.edit', compact('category'));
     }
 
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, int $id): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-        ]);
+        $categoryDTO = CategoryDTO::fromArray($request->validated());
+        $updated = $this->categoryService->updateCategory($id, $categoryDTO);
 
-        $category->update($validated);
+        if (!$updated) {
+            return redirect()->route('categories.index')->with('error', 'Categoria não encontrada.');
+        }
 
-        return redirect()->route('categories.index')->with('success', 'Categoria atualizada com sucesso.');
+        return redirect()->route('categories.index')->with('success', 'Categoria atualizada com sucesso!');
     }
 
-    public function destroy(Category $category)
+    public function destroy(int $id): RedirectResponse
     {
-        $category->delete();
+        $deleted = $this->categoryService->deleteCategory($id);
 
-        return redirect()->route('categories.index')->with('success', 'Categoria excluída com sucesso.');
+        if (!$deleted) {
+            return redirect()->route('categories.index')->with('error', 'Categoria não encontrada.');
+        }
+
+        return redirect()->route('categories.index')->with('success', 'Categoria excluída com sucesso!');
     }
 }

@@ -2,59 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Dtos\WarehouseDTO;
+use App\Services\WarehouseService;
+use App\Http\Requests\WarehouseRequest;
 use App\Models\Warehouse;
-use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
-    public function index()
+    private WarehouseService $warehouseService;
+
+    public function __construct(WarehouseService $warehouseService)
     {
-        $warehouses = Warehouse::all();
-        return view('warehouse.index', compact('warehouses'));
+        $this->warehouseService = $warehouseService;
     }
 
-    public function store(Request $request)
+    public function index()
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'positions' => 'array',
-            'positions.*' => 'required|string|max:255',
-        ]);
-
-        $warehouse = Warehouse::create($validated);
-
-        foreach ($validated['positions'] as $positionName) {
-            $warehouse->positions()->create(['name' => $positionName]);
-        }
-
-        return redirect()->route('warehouses.index')->with('success', 'Armazém e posições criados com sucesso!');
+        $warehouses = $this->warehouseService->getAllWarehouses();
+        return view('warehouses.index', compact('warehouses'));
     }
 
     public function create()
     {
-        return view('warehouse.create');
+        return view('warehouses.create');
     }
 
-    public function show(Warehouse $warehouse)
+    public function store(WarehouseRequest $request)
     {
-        return response()->json($warehouse);
+        $warehouseDTO = new WarehouseDTO($request->validated());
+        $this->warehouseService->createWarehouse($warehouseDTO);
+
+        return redirect()->route('warehouses.index')->with('success', 'Warehouse created successfully.');
     }
 
-    public function update(Request $request, Warehouse $warehouse)
+    public function edit(Warehouse $warehouse)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-        ]);
+        return view('warehouses.edit', compact('warehouse'));
+    }
 
-        $warehouse->update($validated);
-        return redirect()->route('warehouses.index')->with('success', 'Armazém atualizado com sucesso!');
+    public function update(WarehouseRequest $request, Warehouse $warehouse)
+    {
+        $warehouseDTO = new WarehouseDTO($request->validated());
+        $this->warehouseService->updateWarehouse($warehouse, $warehouseDTO);
+
+        return redirect()->route('warehouses.index')->with('success', 'Warehouse updated successfully.');
     }
 
     public function destroy(Warehouse $warehouse)
     {
-        $warehouse->delete();
-        return redirect()->route('warehouses.index')->with('success', 'Armazém excluído com sucesso!');
+        $this->warehouseService->deleteWarehouse($warehouse);
+        return redirect()->route('warehouses.index')->with('success', 'Warehouse deleted successfully.');
     }
 }

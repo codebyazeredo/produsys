@@ -2,22 +2,22 @@
 
 @section('content')
     <div class="container mx-auto h-full flex flex-1 justify-center items-center">
-        <div class="w-full max-w-lg">
+        <div class="w-full max-w-md">
             <div class="leading-loose">
-                <form class="max-w-xl m-4 p-10 bg-white rounded shadow-xl" method="POST" action="{{ route('login') }}">
+                <form class="max-w-lg m-4 p-10 bg-white rounded-lg shadow-lg" method="POST" action="{{ route('login') }}">
                     @csrf
 
                     <x-application-logo/>
 
                     <div class="">
                         <label class="block text-sm text-gray-600" for="email">Email</label>
-                        <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="email" name="email" type="email" required placeholder="Email" aria-label="email" :value="old('email')" autofocus>
+                        <input class="w-full px-5 py-1 text-gray-700 bg-gray-100 rounded" id="email" name="email" type="email" required placeholder="Email" aria-label="email" :value="old('email')" autofocus>
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
                     <div class="mt-2">
                         <label class="block text-sm text-gray-600" for="password">Senha</label>
-                        <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="password" name="password" type="password" required placeholder="*******" aria-label="password">
+                        <input class="w-full px-5 py-1 text-gray-700 bg-gray-100 rounded" id="password" name="password" type="password" required placeholder="Senha" aria-label="password">
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
 

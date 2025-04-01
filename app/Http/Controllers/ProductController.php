@@ -2,62 +2,80 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\Supplier;
-use App\Models\Balance;
-use Illuminate\Http\Request;
+use App\Http\Dtos\ProductDTO;
+use App\Http\Requests\ProductRequest;
+use App\Services\ProductService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index()
+    protected ProductService $productService;
+
+    public function __construct(ProductService $productService)
     {
-        $products = Product::with(['category', 'supplier'])->get();
-        $categories = Category::all();
-        $suppliers = Supplier::all();
-        return view('products.index', compact('products', 'categories', 'suppliers'));
+        $this->productService = $productService;
     }
 
-    public function store(Request $request)
+    public function index(): View
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'price' => 'required|numeric|min:0',
-        ]);
+        $products = $this->productService->getAllProducts();
+        return view('products.index', compact('products'));
+    }
 
-        $product = Product::create($validated);
-        Balance::create([
-            'product_id' => $product->id,
-            'quantity' => 0,
-        ]);
+    public function create()
+    {
+        $categories = $this->productService->getAllCategories();
+        $suppliers = $this->productService->getAllSuppliers();
+        $unitMeasures = $this->productService->getAllUnitMeasures();
+
+        return view('products.create', compact('categories', 'suppliers', 'unitMeasures'));
+    }
+
+    public function store(ProductRequest $request): RedirectResponse
+    {
+        $productDTO = ProductDTO::fromArray($request->validated());
+        $this->productService->createProduct($productDTO);
 
         return redirect()->route('products.index')->with('success', 'Produto criado com sucesso!');
     }
 
-    public function show(Product $product)
+    public function edit(int $id): View|RedirectResponse
     {
-        return response()->json($product->load(['category', 'supplier', 'balances']));
+        $product = $this->productService->getProductById($id);
+        $categories = $this->productService->getAllCategories();
+        $suppliers = $this->productService->getAllSuppliers();
+        $unitMeasures = $this->productService->getAllUnitMeasures();
+
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Produto não encontrado.');
+        }
+
+        return view('products.edit', compact('product', 'categories', 'suppliers', 'unitMeasures'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'price' => 'required|numeric|min:0',
-        ]);
+        $product = $this->productService->getProductById($id);
 
-        $product->update($validated);
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Produto não encontrado.');
+        }
+
+        $productDTO = new ProductDTO($request->validated());
+        $this->productService->updateProduct($product, $productDTO);
+
         return redirect()->route('products.index')->with('success', 'Produto atualizado com sucesso!');
     }
 
-    public function destroy(Product $product)
+    public function destroy(int $id): RedirectResponse
     {
-        $product->balances()->delete();
-        $product->delete();
+        $deleted = $this->productService->deleteProduct($id);
+
+        if (!$deleted) {
+            return redirect()->route('products.index')->with('error', 'Produto não encontrado.');
+        }
+
         return redirect()->route('products.index')->with('success', 'Produto excluído com sucesso!');
     }
 }

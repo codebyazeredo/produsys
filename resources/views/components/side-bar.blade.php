@@ -31,16 +31,16 @@
             </button>
             <ul x-show="open" class="pl-6 space-y-1">
                 <li>
-                    <a href="{{ route('products.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Produtos</a>
+                    <a href="{{ route('products.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Ver Produtos</a>
                 </li>
                 <li>
-                    <a href="{{ route('categories.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Categorias</a>
+                    <a href="{{ route('categories.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Categorias</a>
                 </li>
                 <li>
-                    <a href="{{ route('suppliers.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Fornecedores</a>
+                    <a href="{{ route('suppliers.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Fornecedores</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Unidades de medida</a>
+                    <a href="{{ route('unit_measures.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Unidades de medida</a>
                 </li>
             </ul>
         </li>
@@ -52,10 +52,10 @@
             </button>
             <ul x-show="open" class="pl-6 space-y-1">
                 <li>
-                    <a href="{{ route('warehouses.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Armazens</a>
+                    <a href="{{ route('stock.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Consultar Estoque</a>
                 </li>
                 <li>
-                    <a href="{{ route('stock.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Gerenciar Estoque</a>
+                    <a href="{{ route('warehouses.index') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Armazens</a>
                 </li>
                 <li>
                     <a href="{{ route('stock.history') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Histórico das Movimentações</a>
@@ -70,7 +70,8 @@
         </li>
     </ul>
 
+
     <footer class="absolute left-0 w-full text-center py-3 text-sm text-gray-400" style="bottom: 60px;">
-        &copy; {{ date('Y') }} Produsys. Todos os direitos reservados.
+        &copy; {{ date('Y') }} <span>codebyazeredo</span>
     </footer>
 </aside>

@@ -2,57 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Supplier;
-use Illuminate\Http\Request;
+use App\Http\Dtos\SupplierDTO;
+use App\Http\Requests\SupplierRequest;
+use App\Services\SupplierService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class SupplierController extends Controller
 {
-    public function index()
+    protected SupplierService $supplierService;
+
+    public function __construct(SupplierService $supplierService)
     {
-        $suppliers = Supplier::all();
+        $this->supplierService = $supplierService;
+    }
+
+    public function index(): View
+    {
+        $suppliers = $this->supplierService->getAllSuppliers();
         return view('suppliers.index', compact('suppliers'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('suppliers.create');
     }
 
-    public function store(Request $request)
+    public function store(SupplierRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'contact_info' => 'required|string|max:255'
-        ]);
+        $supplierDTO = SupplierDTO::fromArray($request->validated());
+        $this->supplierService->createSupplier($supplierDTO);
 
-        Supplier::create($validated);
         return redirect()->route('suppliers.index')->with('success', 'Fornecedor criado com sucesso!');
     }
 
-    public function show(Supplier $supplier)
+    public function edit(int $id): View|RedirectResponse
     {
-        return view('suppliers.show', compact('supplier'));
-    }
+        $supplier = $this->supplierService->getSupplierById($id);
+        if (!$supplier) {
+            return redirect()->route('suppliers.index')->with('error', 'Fornecedor não encontrado.');
+        }
 
-    public function edit(Supplier $supplier)
-    {
         return view('suppliers.edit', compact('supplier'));
     }
 
-    public function update(Request $request, Supplier $supplier)
+    public function update(SupplierRequest $request, int $id): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'contact_info' => 'required|string|max:255'
-        ]);
+        $supplierDTO = SupplierDTO::fromArray($request->validated());
+        $updated = $this->supplierService->updateSupplier($id, $supplierDTO);
 
-        $supplier->update($validated);
+        if (!$updated) {
+            return redirect()->route('suppliers.index')->with('error', 'Fornecedor não encontrado.');
+        }
+
         return redirect()->route('suppliers.index')->with('success', 'Fornecedor atualizado com sucesso!');
     }
 
-    public function destroy(Supplier $supplier)
+    public function destroy(int $id): RedirectResponse
     {
-        $supplier->delete();
+        $deleted = $this->supplierService->deleteSupplier($id);
+
+        if (!$deleted) {
+            return redirect()->route('suppliers.index')->with('error', 'Fornecedor não encontrado.');
+        }
+
         return redirect()->route('suppliers.index')->with('success', 'Fornecedor excluído com sucesso!');
     }
 }

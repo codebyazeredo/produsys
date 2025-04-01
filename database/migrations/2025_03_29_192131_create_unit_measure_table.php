@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('unit_measure', function (Blueprint $table) {
+        Schema::create('unit_measures', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('abbreviation')->unique();
@@ -18,6 +18,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('unit_measure');
+        Schema::dropIfExists('unit_measures');
     }
 };

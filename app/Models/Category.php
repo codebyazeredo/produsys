@@ -17,4 +17,14 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst(trim($value));
+    }
 }

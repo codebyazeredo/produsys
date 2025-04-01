@@ -6,22 +6,21 @@ function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
 }
 
-function openEditModal(id, name, cnpj, phone, address) {
+function openEditModal(id, name, abbreviation) {
     const modal = document.getElementById('modalCreate');
-    document.getElementById('modalTitle').textContent = 'Editar Fornecedor';
-    document.getElementById('supplierForm').action = `/suppliers/${id}`;
-    document.getElementById('supplierForm').method = 'POST';
+    document.getElementById('modalTitle').textContent = 'Editar Unidade de Medida';
+    document.getElementById('unitMeasureForm').action = `/unitMeasures/${id}`;
+    document.getElementById('unitMeasureForm').method = 'POST';
 
     const inputMethod = document.createElement('input');
     inputMethod.setAttribute('name', '_method');
     inputMethod.setAttribute('value', 'PUT');
     inputMethod.setAttribute('type', 'hidden');
-    document.getElementById('supplierForm').appendChild(inputMethod);
+    document.getElementById('unitMeasureForm').appendChild(inputMethod);
 
+    // Preenche os campos do formulário
     document.getElementById('name').value = name;
-    document.getElementById('cnpj').value = cnpj;
-    document.getElementById('phone').value = phone;
-    document.getElementById('address').value = address;
+    document.getElementById('abbreviation').value = abbreviation;
 
     const submitButton = document.getElementById('submitButton');
     submitButton.textContent = 'Atualizar';
@@ -31,13 +30,9 @@ function openEditModal(id, name, cnpj, phone, address) {
     openModal('modalCreate');
 }
 
-function openDeleteModal(supplierId) {
+function openDeleteModal(unitMeasureId) {
     const deleteForm = document.getElementById('deleteForm');
-    deleteForm.action = '/suppliers/' + supplierId;
+    deleteForm.action = '/unit-measures/' + unitMeasureId;
 
     document.getElementById('modalDelete').classList.remove('hidden');
-}
-
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
 }

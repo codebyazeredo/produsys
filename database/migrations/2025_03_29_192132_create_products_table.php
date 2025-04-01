@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
-            $table->foreign('unit_measure_id')->references('id')->on('unit_measure');
+            $table->foreign('unit_measure_id')->references('id')->on('unit_measures');
         });
     }
 

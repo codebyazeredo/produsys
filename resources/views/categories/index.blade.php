@@ -2,13 +2,13 @@
 
 @section('content')
     <div class="container mx-auto p-6">
-        <div class="bg-white text-white shadow-lg rounded-lg p-6">
-            <h1 class="text-2xl font-bold mb-4 text-gray-700">Gerenciamento de Categorias</h1>
+        <div class="bg-white text-gray-800 shadow-lg rounded-lg p-6">
+            <h1 class="text-2xl font-bold mb-4">Gerenciamento de Categorias</h1>
 
-            <div class="mb-4">
-                <button onclick="openModal('modalCreate')" class="bg-green-600 hover:bg-green-400 text-white px-4 py-2 rounded flex items-center gap-2">
+            <div class="mb-4 flex justify-start">
+                <a href="{{ route('categories.create') }}" class="bg-green-600 hover:bg-green-400 text-white px-4 py-2 rounded flex items-center gap-2">
                     <i class="bi bi-plus-lg"></i> Nova Categoria
-                </button>
+                </a>
             </div>
 
             <div class="overflow-x-auto">
@@ -27,13 +27,17 @@
                             <td class="border border-gray-300 px-4 py-2 flex-1">{{ $category->name }}</td>
                             <td class="border border-gray-300 px-4 py-2 w-24 text-center">
                                 <div class="flex justify-center gap-2">
-                                    <button onclick="openEditModal({{ $category->id }}, '{{ $category->name }}')" class="text-blue-500 hover:text-blue-700">
+                                    <a href="{{ route('categories.edit', $category->id) }}" class="text-blue-500 hover:text-blue-700">
                                         <i class="bi bi-pencil-square text-xl"></i>
-                                    </button>
+                                    </a>
 
-                                    <button onclick="openDeleteModal({{ $category->id }})" class="text-red-500 hover:text-red-700">
-                                        <i class="bi bi-trash text-xl"></i>
-                                    </button>
+                                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700">
+                                            <i class="bi bi-trash text-xl"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -43,10 +47,4 @@
             </div>
         </div>
     </div>
-
-    @include('categories.create-modal')
-    @include('categories.edit-modal')
-    @include('components.delete-modal')
-
-    <script src="{{ asset('js/categories/index.js') }}"></script>
 @endsection

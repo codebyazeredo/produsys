@@ -17,6 +17,66 @@ class Product extends Model
         'price',
     ];
 
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return (float) $value;
+    }
+
+    public function getCategoryNameAttribute()
+    {
+        return $this->category->name ?? 'Não definido';
+    }
+
+    public function getUnitMeasureNameAttribute()
+    {
+        return $this->unitMeasure->name ?? 'Não definido';
+    }
+
+    public function getCategoryIdAttribute($value)
+    {
+        return (int) $value;
+    }
+
+    public function getSupplierIdAttribute($value)
+    {
+        return (int) $value;
+    }
+
+    public function getUnitMeasureIdAttribute($value)
+    {
+        return (int) $value;
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst(trim($value));
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = round($value, 2);
+    }
+
+    public function setCategoryIdAttribute($value)
+    {
+        $this->attributes['category_id'] = (int) $value;
+    }
+
+    public function setSupplierIdAttribute($value)
+    {
+        $this->attributes['supplier_id'] = (int) $value;
+    }
+
+    public function setUnitMeasureIdAttribute($value)
+    {
+        $this->attributes['unit_measure_id'] = (int) $value;
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -44,8 +104,6 @@ class Product extends Model
 
     public function latestStockMovement()
     {
-        return $this->hasOne(StockMovement::class)
-            ->orderBy('movement_date', 'desc');
+        return $this->hasOne(StockMovement::class)->latest('movement_date');
     }
-
 }
