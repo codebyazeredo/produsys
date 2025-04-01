@@ -23,4 +23,24 @@ class Position extends Model
     {
         return $this->hasMany(Balance::class);
     }
+
+    public function getWarehouseId(): int
+    {
+        return $this->attributes['warehouse_id'];
+    }
+
+    public function setWarehouseId(int $warehouseId): void
+    {
+        $this->attributes['warehouse_id'] = $warehouseId;
+    }
+
+    public function getName(): string
+    {
+        return $this->attributes['name'];
+    }
+
+    public function setName(string $name): void
+    {
+        $this->attributes['name'] = $name;
+    }
 }

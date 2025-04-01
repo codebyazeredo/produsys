@@ -2,47 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Dtos\PositionDTO;
+use App\Http\Requests\PositionRequest;
 use App\Models\Position;
-use Illuminate\Http\Request;
+use App\Services\PositionService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PositionController extends Controller
 {
-    public function index()
+    private PositionService $positionService;
+
+    public function __construct(PositionService $positionService)
     {
-        $positions = Position::all();
+        $this->positionService = $positionService;
+    }
+
+    public function index(): View
+    {
+        $positions = $this->positionService->getAll();
         return view('positions.index', compact('positions'));
     }
 
-    public function store(Request $request)
+    public function create(): View
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'warehouse_id' => 'required|exists:warehouses,id',
-        ]);
+        return view('positions.create');
+    }
 
-        Position::create($validated);
+    public function store(PositionRequest $request): RedirectResponse
+    {
+        $dto = new PositionDTO($request->warehouse_id, $request->name);
+        $this->positionService->create($dto);
         return redirect()->route('positions.index')->with('success', 'Posição criada com sucesso!');
     }
 
-    public function show(Position $position)
+    public function edit(Position $position): View
     {
-        return response()->json($position);
+        return view('positions.edit', compact('position'));
     }
 
-    public function update(Request $request, Position $position)
+    public function update(PositionRequest $request, Position $position): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'warehouse_id' => 'required|exists:warehouses,id',
-        ]);
-
-        $position->update($validated);
+        $dto = new PositionDTO($request->warehouse_id, $request->name);
+        $this->positionService->update($position, $dto);
         return redirect()->route('positions.index')->with('success', 'Posição atualizada com sucesso!');
     }
 
-    public function destroy(Position $position)
+    public function destroy(Position $position): RedirectResponse
     {
-        $position->delete();
-        return redirect()->route('positions.index')->with('success', 'Posição excluída com sucesso!');
+        $this->positionService->delete($position);
+        return redirect()->route('positions.index')->with('success', 'Posição removida com sucesso!');
     }
 }

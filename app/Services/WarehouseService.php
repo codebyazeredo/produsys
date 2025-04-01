@@ -2,17 +2,25 @@
 
 namespace App\Services;
 
-use App\Repositories\WarehouseRepository;
 use App\Http\Dtos\WarehouseDTO;
-use App\Models\Warehouse;
+use App\Repositories\WarehouseRepository;
 
 class WarehouseService
 {
-    private WarehouseRepository $warehouseRepository;
+    protected $warehouseRepository;
 
     public function __construct(WarehouseRepository $warehouseRepository)
     {
         $this->warehouseRepository = $warehouseRepository;
+    }
+
+    public function createWarehouse(WarehouseDTO $warehouseDTO)
+    {
+        return $this->warehouseRepository->create([
+            'name' => $warehouseDTO->name,
+            'location' => $warehouseDTO->location,
+            'positions' => $warehouseDTO->positions,
+        ]);
     }
 
     public function getAllWarehouses()
@@ -20,23 +28,22 @@ class WarehouseService
         return $this->warehouseRepository->all();
     }
 
-    public function getWarehouseById(int $id): ?Warehouse
+    public function getWarehouseById(int $id)
     {
         return $this->warehouseRepository->find($id);
     }
 
-    public function createWarehouse(WarehouseDTO $warehouseDTO): Warehouse
+    public function updateWarehouse(int $id, WarehouseDTO $warehouseDTO)
     {
-        return $this->warehouseRepository->create($warehouseDTO);
+        return $this->warehouseRepository->update($id, [
+            'name' => $warehouseDTO->name,
+            'location' => $warehouseDTO->location,
+            'positions' => $warehouseDTO->positions,
+        ]);
     }
 
-    public function updateWarehouse(Warehouse $warehouse, WarehouseDTO $warehouseDTO): Warehouse
+    public function deleteWarehouse(int $id)
     {
-        return $this->warehouseRepository->update($warehouse, $warehouseDTO);
-    }
-
-    public function deleteWarehouse(Warehouse $warehouse): bool
-    {
-        return $this->warehouseRepository->delete($warehouse);
+        return $this->warehouseRepository->delete($id);
     }
 }

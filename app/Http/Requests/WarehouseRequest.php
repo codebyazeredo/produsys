@@ -16,6 +16,8 @@ class WarehouseRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
+            'positions' => 'array',
+            'positions.*' => 'string|max:255',
         ];
     }
 
