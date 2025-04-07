@@ -1,17 +1,18 @@
-Sistema para gerenciar entrada/saída de produtos em um pequeno comércio.
+Sistema WMS para gerenciar entrada/saída de produtos em estoque de pequenos comércios.
+(Algumas funcionalidades ainda não estão disponíveis).
 
 Funcionalidades:
 Cadastro de produtos (nome, categoria, quantidade, preço, fornecedor).
-deve ter um logo de todos os cadastros e movimentações
+Gerenciamento de estoque e de armazem
+Dashboard interativo
+Possibilidade de buscar todo o historico de movientacoes
 
 Registro de vendas e alertas de estoque baixo.
-
-Histórico de movimentações.
-
+Graficos automatizados sobre o negocio
 Geração de relatórios em PDF/Excel.
 
 Tecnologias:
-
 Frontend: Tailwindcss.
-
 Backend: php com laravel e pacote laravel breeze.
+
+EM DESENVOLVIMENTO...
