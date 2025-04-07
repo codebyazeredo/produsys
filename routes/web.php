@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
+
+    Route::post('categories', [CategoryController::class, 'store']);
+
     Route::resource('suppliers',  SupplierController::class);
     Route::resource('unit_measures', UnitMeasureController::class);
 
